@@ -29,8 +29,12 @@ int main() {
     return EXIT_FAILURE;
   }
 
+  printf("Current position in file: %d\n", (unsigned int)spkFtell(test));
   printf("Read %d characters\n", spkFread(testFileContents, 1, 10, test));
   printf("Contents: '%s'\n", testFileContents);
+  printf("Current position in file: %d\n", (unsigned int)spkFtell(test));
+  printf("Read %d characters\n", spkFread(testFileContents, 1, 10, test));
+  printf("Current position in file: %d\n", (unsigned int)spkFtell(test));
 
   if(spkFclose(test)) {
     printf("Error closing file!\n");
