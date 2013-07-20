@@ -28,7 +28,7 @@ Why?
 The low resource usage and static memory management make this library attractive in embedded fields.
 One example is the development of PSX(PlayStation 1) games, since ISO9660 as implemented in the PSX BIOS (without extensions) only allows for a few files per folder and is very restrictive concerning the file names (8.3, uppercase only, ...).
 
-This library allows for up to 255 files in one package, each having a filename with a maximum length that you can specify at compile time. (Warning: Even though you could turn the maximum file size up to insane amounts, you should keep in mind that not only would every singe FAT entry and the header be of that size, so would the static cache be.)
+This library allows for up to 255 files in one package, each having a filename with a maximum length that you can specify at compile time. (Warning: Even though you could turn the maximum file name size up to almost insane amounts, you should keep in mind that not only would every singe FAT entry and the header be of that size, so would the static cache be.)
 
 The amount of concurrent virtual files can also be increased, but has similar consequences (without the package file size part).
 
