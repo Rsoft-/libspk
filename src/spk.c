@@ -152,6 +152,7 @@ int spkFclose(struct spkFileHandle* spkFh) {
 size_t spkFread(void* dest, size_t size, size_t count, struct spkFileHandle* spkFh) {
   uint16_t fileSize, pos;
   FILE* archiveHandle;
+  size_t fread_return;
 
   if((size == 0) || (count == 0))
     return 0;
@@ -165,7 +166,11 @@ size_t spkFread(void* dest, size_t size, size_t count, struct spkFileHandle* spk
 
   spkFseek(spkFh, pos, SEEK_SET);
 
-  return fread(dest, size, count, archiveHandle);
+  fread_return = fread(dest, size, count, archiveHandle);
+
+  spkFh->pos += fread_return * size;
+
+  return fread_return;
 }
 
 int spkFseek(struct spkFileHandle* spkFh, long offset, int whence) {
@@ -181,6 +186,7 @@ int spkFseek(struct spkFileHandle* spkFh, long offset, int whence) {
         return -1;
 
       pos = offset;
+      spkFh->pos = pos;
       return fseek(spkFh->state->archiveHandle, absoluteOffset + pos, SEEK_SET);
       break;
     }
@@ -189,6 +195,7 @@ int spkFseek(struct spkFileHandle* spkFh, long offset, int whence) {
         return -1;
 
       pos = fileSize - offset;
+      spkFh->pos = pos;
       return fseek(spkFh->state->archiveHandle, absoluteOffset + pos, SEEK_SET);
       break;
     }
@@ -197,6 +204,7 @@ int spkFseek(struct spkFileHandle* spkFh, long offset, int whence) {
         return -1;
 
       pos += offset;
+      spkFh->pos = pos;
       return fseek(spkFh->state->archiveHandle, absoluteOffset + pos, SEEK_SET);
       break;
     }
