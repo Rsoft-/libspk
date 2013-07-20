@@ -21,7 +21,7 @@ This is a simple library for reading an even simpler package format and here's a
  - Virtually untested
  - Open Source!?
  - Flat packages. None of that hierarchy rubbish.
- - Intendet to be read-only
+ - Intended to be read-only
 
 Why?
 ----
