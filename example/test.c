@@ -32,5 +32,15 @@ int main() {
   printf("Read %d characters\n", spkFread(testFileContents, 1, 10, test));
   printf("Contents: '%s'\n", testFileContents);
 
+  if(spkFclose(test)) {
+    printf("Error closing file!\n");
+    return EXIT_FAILURE;
+  }
+
+  if(spkCloseArchive(&state)) {
+    printf("Error closing archive!\n");
+    return EXIT_FAILURE;
+  }
+
   return EXIT_SUCCESS;
 }
