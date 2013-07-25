@@ -1,0 +1,9 @@
+This program may ask your cat for the package you should have recieved two days ago, feed your neighbour and then explode. Twice.
+In other words: The source code is pretty much the worst to be found in this repository. It contains hard-coded values and more evil things than you can poke a stick at. It might segfault every minute now. If it should choose to explode, you're on your own.
+
+Nevertheless, here is at least a little bit of documentation:
+You invoke the genspk tool with two parameters.
+The first one being the name of the file you want to create (e.g. out.spk) and the second one being the directory you want to package into the file.
+
+Example:
+./genspk out.spk indir
