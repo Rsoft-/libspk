@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
   }
 
   int j;
-  for(j = 0; j < (i-1); j++) {
+  for(j = 0; j < i; j++) {
     assemblePath(filePath, argv[2], entries[j].fileName);
     fh = fopen(filePath, "rb");
     if(fh == NULL) {
