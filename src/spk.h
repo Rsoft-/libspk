@@ -18,14 +18,14 @@
 
 struct spkHeader {
   char magic[6];
-  char version;
-  char fileCount;
-  char padding[ENTRYSIZE-8];
+  uint8_t version;
+  uint8_t fileCount;
+  uint8_t padding[ENTRYSIZE-8];
 } __attribute__((packed));
 
 struct FATentry {
-  char sizeLSB;
-  char sizeMSB;
+  uint8_t sizeLSB;
+  uint8_t sizeMSB;
   char fileName[ENTRYSIZE-2];
 } __attribute__((packed));
 
@@ -36,14 +36,14 @@ struct LUTentry {
 
 struct spkFileHandle {
   struct spkState* state; // Pointer to the state, fh closed if NULL
-  char fileIndex;
+  uint8_t fileIndex;
   uint16_t pos;
 };
 
 struct spkState {
   FILE* archiveHandle;
-  char fileCount;
-  char entryCache[ENTRYSIZE];
+  uint8_t fileCount;
+  uint8_t entryCache[ENTRYSIZE];
   struct LUTentry LookUpTable[255];
   struct spkFileHandle handles[MAX_OPEN_FILES];
 };

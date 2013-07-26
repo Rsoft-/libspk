@@ -23,14 +23,14 @@ struct LUTentry {
 
 struct spkFileHandle {
   struct spkState* state; // Pointer to the state, fh closed if NULL
-  char fileIndex;
+  uint8_t fileIndex;
   uint16_t pos;
 };
 
 struct spkState {
   FILE* archiveHandle;
-  char fileCount;
-  char entryCache[ENTRYSIZE];
+  uint8_t fileCount;
+  uint8_t entryCache[ENTRYSIZE];
   struct LUTentry LookUpTable[255];
   struct spkFileHandle handles[MAX_OPEN_FILES];
 };

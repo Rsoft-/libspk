@@ -174,7 +174,7 @@ size_t spkFread(void* dest, size_t size, size_t count, struct spkFileHandle* spk
 }
 
 int spkFseek(struct spkFileHandle* spkFh, long offset, int whence) {
-  char fileIndex = spkFh->fileIndex;
+  uint8_t fileIndex = spkFh->fileIndex;
   uint16_t pos = spkFh->pos;
   struct LUTentry* entry = &spkFh->state->LookUpTable[(uint8_t)fileIndex];
   uint16_t fileSize = entry->fileSize;
