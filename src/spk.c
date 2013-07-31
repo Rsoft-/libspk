@@ -99,7 +99,7 @@ struct spkFileHandle* spkFopen(struct spkState* state, char* filename) {
     if(currEntry->fileName[ENTRYSIZE-3] != 0)
       return NULL;
 
-    if(strncmp(filename, currEntry->fileName, ENTRYSIZE - 3) == 0) {
+    if(0 == strncmp(filename, currEntry->fileName, ENTRYSIZE - 3)) {
       index = i;
       break;
     }
@@ -108,7 +108,7 @@ struct spkFileHandle* spkFopen(struct spkState* state, char* filename) {
   /*
    * If there is no free space, return a NULL pointer
    */
-  if(index == -1)
+  if(-1 == index)
     return NULL;
 
   return spkFopenByIndex(state, index);
@@ -121,7 +121,7 @@ struct spkFileHandle* spkFopenByIndex(struct spkState* state, uint8_t index) {
    * Search for a free file handle
    */
   for(i = 0; i < MAX_OPEN_FILES; i++) {
-    if(state->handles[i].state == NULL) {
+    if(NULL == state->handles[i].state) {
       handleIndex = i;
       break;
     }
@@ -130,7 +130,7 @@ struct spkFileHandle* spkFopenByIndex(struct spkState* state, uint8_t index) {
   /*
    * If there is no free space, return a NULL pointer
    */
-  if(handleIndex == -1)
+  if(-1 == handleIndex)
     return NULL;
 
   state->handles[handleIndex].state = state;
@@ -142,7 +142,7 @@ struct spkFileHandle* spkFopenByIndex(struct spkState* state, uint8_t index) {
 
 int spkFclose(struct spkFileHandle* spkFh) {
   /* Return an error value if the file handle is already closed */
-  if(spkFh->state == NULL)
+  if(NULL == spkFh->state)
     return 1;
 
   spkFh->state = NULL;
@@ -154,7 +154,7 @@ size_t spkFread(void* dest, size_t size, size_t count, struct spkFileHandle* spk
   FILE* archiveHandle;
   size_t fread_return;
 
-  if((size == 0) || (count == 0))
+  if((0 == size) || (0 == count))
     return 0;
 
   fileSize = spkFh->state->LookUpTable[(uint8_t)spkFh->fileIndex].fileSize;
@@ -261,7 +261,7 @@ int spkGenLUT(struct spkState* state) {
  * Reads a chunk to the entry cache
  */
 int spkReadChunk(struct spkState* state, uint8_t index) {
-  if(fseek(state->archiveHandle, ENTRYSIZE * index, SEEK_SET) == -1)
+  if(-1 == fseek(state->archiveHandle, ENTRYSIZE * index, SEEK_SET))
     return 1;
 
   if(fread(state->entryCache, ENTRYSIZE, 1, state->archiveHandle) < 1)

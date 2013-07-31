@@ -24,7 +24,7 @@ int main() {
 
   struct spkFileHandle* test = spkFopen(&state, "This is a file!");
 
-  if(test == NULL) {
+  if(NULL == test) {
     printf("Error opening file!\n");
     return EXIT_FAILURE;
   }
