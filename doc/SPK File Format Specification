@@ -1,0 +1,68 @@
+================================================================================
+ SPK File Format Specification                    Document Revision:        001
+ rsoft 2013                                             Last Change: 2013-08-17
+================================================================================
+ Format Version: 0x00                                    Introduced: XXXX-XX-XX
+--------------------------------------------------------------------------------
+
+Introduction
+============
+
+An SPK package consists of 3 "sectors": header, FAT and user data.
+The FAT consists of multiple entries, each the size of the file header.
+
++----------+------------------------------------------------------+-- -- - -
+|          |                FILE ALLOCATION TABLE                 |
+|  HEADER  +----------+----------+-- - - \ \ - - -- ---+----------+   DATA
+|          |  ENTRY1  |  ENTRY2  |  E TR   \ \         |  ENTRYn  |
++----------+----------+----------+--- -- - - \ \ - - --+----------+--- -- - -
+
+Header
+======
+
+The header contains not only the "magic" used by programs to determine that the
+file is a SPK package, but also the SPK file format version number and the count
+of files in the package. By default, the entry size is 64 bytes, but this is
+subject to implementation. The padding is reserved and should contain binary
+zeroes (0x00). It fills the header up to the size of one entry. The file count
+starts at 0, meaning that there are no files in the package.
+
++----------+---------+------------+----------------------+
+|  MAGIC   | VERSION | FILE COUNT |        PADDING       |
+| "SimPaK" |  0x00   |   uint8_t  |    ENTRY SIZE - 8    |
++----------+---------+------------+----------------------+
+
+File Allocation Table
+=====================
+
+The file allocation table, or FAT, consists of multiple entries, each the size
+of the SPK file header. This measurement unit is referred to as "entry size".
+The amount of entries is determined by the "file count" field of the SPK header. 
+
+The size of each virtual file is split into two parts, together representing one
+word or 16 bits. These two bytes are stored with the least significant first.
+The least significant byte is referred to as "LSB" and the most significant as
+"MSB" in the diagram below.
+
+Together, these two bytes form a word that represents the size of the virtual
+file in bytes. The contents of the virtual file can be found in the data
+segment.
+
+The file name is stored as a C string, with a single exception:
+The last byte of the field has to be a null terminator, even if the name is
+shorter than "entry size - 3". If there is no terminator at the end of the
+file name, the whole package gets rejected. The data between the two
+hypothetical null terminators does not affect the package in any way and
+should be ignored.
+
++-----------+-----------------------+
+|   SIZE    |   F I L E   N A M E   |
++-----+-----+                       |
+| LSB | MSB |     ENTRY SIZE - 2    |
++-----+-----+-----------------------+
+
+Data Segment
+============
+
+The data segment is merely the contents of all files in the package concatenated
+in the order they appear in the file allocation table.
