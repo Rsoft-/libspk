@@ -1,0 +1,4 @@
+SPKx is a tool that allows the extraction of files from an SPK package/archive.
+It can write the contents of the virtual file either to a real file or to stdout.
+Its codebase is way cleaner than that of genSPK and it doesn't use any tricks.
+It can also be used as another example for libspk and is helpful for live demonstrations.

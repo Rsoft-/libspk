@@ -1,7 +1,14 @@
 CC=gcc
 CFLAGS=-Wall
 
-OUT=genspk
+ARCH=$(shell $(CC) -dumpmachine)
 
-all:
-	$(CC) $(CFLAGS) -o $(OUT) genspk.c
+.PHONY: all genspk spkx
+
+all: genspk spkx
+
+genspk:
+	$(CC) $(CFLAGS) -o genspk genspk.c
+
+spkx:
+	$(CC) $(CFLAGS) -I../include -o spkx spkx.c ../lib/$(ARCH)/libspk.o
